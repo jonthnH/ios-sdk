@@ -72,7 +72,6 @@ class VatomInventory {
     
     private var pageSize: Int = 20
     private var pageIndex: Int = 0
-    private var
     
     /// Model holding the inventory vatoms.
     fileprivate var vatoms: [VatomModel] = [] {
