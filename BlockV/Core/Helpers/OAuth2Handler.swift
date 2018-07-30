@@ -11,6 +11,7 @@
 
 import Foundation
 import Alamofire
+import JWTDecode
 
 /// This class handles BLOCKv OAuth2 and implements a credential refresh system.
 ///
@@ -255,6 +256,32 @@ final class OAuth2Handler: RequestAdapter, RequestRetrier {
             self.lock.lock() ; defer { self.lock.unlock() }
             self.manualTokenCallbacks.append(completion)
             self.refreshAndUpdate()
+        }
+
+    }
+
+    /// Retrieves the access token and only refreshes it fail
+    ///
+    /// - Parameters:
+    ///   - validInterval: The minumum remaining interval for which the token must be valid for (measured in seconds).
+    ///   - completion: The closure to call once a valid access token has been obtained.
+    func fetchAccessToken(validInterval: TimeInterval, completion: @escaping TokenCompletion) {
+
+        //TODO: Check if currenlty refreshing
+        //TODO: Is threading important when reading `accessToken`?
+
+        guard
+            let accessJWT = try? decode(jwt: accessToken),
+            let expiresAt = accessJWT.expiresAt else {
+                completion(false, nil)
+                return
+        }
+
+        let minimimValidDate = expiresAt.addingTimeInterval(-validInterval)
+        if Date() < minimimValidDate {
+            completion(true, accessToken)
+        } else {
+            forceAccessTokenRefresh(completion: completion)
         }
 
     }
