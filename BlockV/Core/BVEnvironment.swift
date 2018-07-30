@@ -15,10 +15,10 @@ import Foundation
 public enum BVEnvironment: String {
     /// Stable production environment.
     case production = "prod_env"
-    /// Unstable development environement (DO NOT USE).
+    /// Unstable development environement.
     case development = "dev_env"
 
-    /// BLOCKv server base url
+    /// BLOCKv server base url.
     var apiServerURLString: String {
         switch self {
         case .production:  return "https://api.blockv.io"
@@ -26,11 +26,19 @@ public enum BVEnvironment: String {
         }
     }
 
-    /// BLOCKv Web socket server base url
+    /// BLOCKv Web socket server base url.
     var webSocketURLString: String {
         switch self {
         case .production:  return "wss://newws.blockv.io/ws"
         case .development: return "wss://ws.blockv.net/ws"
+        }
+    }
+
+    /// BLOCKv resource CDN server base url.
+    var resourceURLString: String {
+        switch self {
+        case .production:  return "" // unknown at this point
+        case .development: return "https://cdndevsec.blockv.net"
         }
     }
 
