@@ -119,7 +119,7 @@ class VatomInventory {
     
     func fetchVatoms(page: Int, pageSize: Int, completion: @escaping (BVError?) -> Void) {
         
-        BLOCKv.getInventory(parentID: parentID, page: page, limit: pageSize) { (packModel, error) in
+        BLOCKv.getInventory(id: parentID, page: page, limit: pageSize) { (packModel, error) in
             
             guard let pack = packModel, error == nil else {
                 completion(error)

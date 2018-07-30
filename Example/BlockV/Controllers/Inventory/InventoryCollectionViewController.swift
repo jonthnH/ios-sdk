@@ -43,24 +43,24 @@ class InventoryCollectionViewController: UICollectionViewController {
         return control
     }()
     
-    fileprivate var inventory: VatomInventory
+    /// Model holding the inventory vatoms.
+    fileprivate var vatoms: [VatomModel] = [] {
+        didSet {
+            filteredVatoms = vatoms.filter {
+                // filter out: dropped, avatar, and coin wallet vatoms
+                (!$0.isDropped)
+                    && (!$0.templateID.hasSuffix("::vAtom::Avatar"))
+                    && (!$0.templateID.hasSuffix("::vAtom::CoinWallet"))
+            }
+        }
+    }
     
-//    /// Model holding the inventory vatoms.
-//    fileprivate var vatoms: [VatomModel] = [] {
-//        didSet {
-//            filteredVatoms = vatoms.filter {
-//                // filter out dropped vAtoms & coin wallet
-//                (!$0.isDropped) && ($0.templateID != "vatomic::v1::vAtom::CoinWallet")
-//            }
-//        }
-//    }
-//
-//    /// Model holding the filtered vAtoms.
-//    fileprivate var filteredVatoms: [VatomModel] = [] {
-//        didSet {
-//            collectionView?.reloadData()
-//        }
-//    }
+    /// Model holding the filtered vAtoms.
+    fileprivate var filteredVatoms: [VatomModel] = [] {
+        didSet {
+            collectionView?.reloadData()
+        }
+    }
     
     /// vAtom to pass to detail view controller.
     fileprivate var vatomToPass: VatomModel?
@@ -78,26 +78,9 @@ class InventoryCollectionViewController: UICollectionViewController {
     /// this is beyond the scope of this example app.
     fileprivate lazy var downloadQueue: OperationQueue = {
         let queue = OperationQueue()
-        queue.maxConcurrentOperationCount = 4 // limit concurrent downloads
+        queue.maxConcurrentOperationCount = 2 // limit concurrent downloads
         return queue
     }()
-    
-    // MARK: - Init
-    
-    override init(collectionViewLayout layout: UICollectionViewLayout) {
-        super.init(collectionViewLayout: layout)
-        
-        // create the inventory
-        self.inventory = VatomInventory()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    deinit {
-        self.downloadQueue.cancelAllOperations()
-    }
     
     // MARK: - Lifecycle
     
@@ -110,6 +93,10 @@ class InventoryCollectionViewController: UICollectionViewController {
         
         // connect and subscribe to update stream
         self.subscribeToUpdateStream()
+    }
+    
+    deinit {
+        self.downloadQueue.cancelAllOperations()
     }
     
     // MARK: - Helpers
