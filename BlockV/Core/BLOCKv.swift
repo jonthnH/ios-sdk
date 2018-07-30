@@ -268,16 +268,40 @@ public final class BLOCKv {
         case missingAssetProviders
     }
 
-    /// Encodes the URL with the with the available asset providers.
+    /// Encodes the URL with the available asset providers.
     ///
     /// - note: Not all URLs require asset provider encoding.
     ///
     /// If the SDK does not have any asset provider credentials the method will throw.
     public static func encodeURL(_ url: URL) throws -> URL {
+
         let assetProviders = CredentialStore.assetProviders
         if assetProviders.isEmpty { throw URLEncodingError.missingAssetProviders }
         let provider = assetProviders.first(where: { $0.isProviderForURL(url) })
         return provider?.encodedURL(url) ?? url
+    }
+
+    /// Encodes the URL with the user's access token, fallsback on any available asset providers.
+    ///
+    /// - note: Not all URLs require asset provider encoding.
+    public static func encodeURLWithAccessToken(_ url: URL, completion: (URL) -> Void) {
+
+        // check static resource cdn
+        if let host = url.host, host == self.environment!.resourceURLString {
+            
+            
+            
+        } else {
+            // fallback on asset provider credentials
+            let assetProviders = CredentialStore.assetProviders
+            if assetProviders.isEmpty {
+                printBV(error: "Missing asset provider credentials.")
+            }
+            let provider = assetProviders.first(where: { $0.isProviderForURL(url) })
+            let url = provider?.encodedURL(url) ?? url
+            completion(url)
+        }
+
     }
 
     /// Closure that encodes a given url using a set of asset providers.
