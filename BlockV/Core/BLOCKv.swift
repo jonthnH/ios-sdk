@@ -288,7 +288,7 @@ public final class BLOCKv {
     ///   - url: URL to be encoded.
     ///   - completion: Completion handler to call once the url has been encoded.
     public static func encodeURLWithAccessToken(_ url: URL, completion: @escaping (URL) -> Void) {
-        
+
         /*
          Encode the url with the known resource cdn (using jwt), or encode using one of the returned
          asset providers (using the policy, signiture, key-pair method).
