@@ -267,7 +267,7 @@ final class OAuth2Handler: RequestAdapter, RequestRetrier {
     ///   - completion: The closure to call once a valid access token has been obtained.
     func fetchAccessToken(validInterval: TimeInterval, completion: @escaping TokenCompletion) {
 
-        //TODO: Check if currenlty refreshing
+        //FIXME: Check if currenlty refreshing
         //TODO: Is threading important when reading `accessToken`?
 
         guard
