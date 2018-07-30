@@ -284,13 +284,29 @@ public final class BLOCKv {
     /// Encodes the URL with the user's access token, fallsback on any available asset providers.
     ///
     /// - note: Not all URLs require asset provider encoding.
-    public static func encodeURLWithAccessToken(_ url: URL, completion: (URL) -> Void) {
+    ///
+    /// - Parameters:
+    ///   - url: URL to be encoded.
+    ///   - completion: Completion handler to call once the url has been encoded.
+    public static func encodeURLWithAccessToken(_ url: URL, completion: @escaping (URL) -> Void) {
 
         // check static resource cdn
         if let host = url.host, host == self.environment!.resourceURLString {
-            
-            
-            
+
+            // FIXME: Will go out to network EVERYTIME
+
+            // Fetch a fresh access token
+            BLOCKv.client.getAccessToken { (_, accessToken) in
+
+                if let token = accessToken {
+                    let queryItem = URLQueryItem(name: "jet", value: token)
+                    var components = URLComponents(url: url, resolvingAgainstBaseURL: true)
+                    components?.queryItems = [queryItem]
+                    completion(components?.url ?? url)
+                }
+
+            }
+
         } else {
             // fallback on asset provider credentials
             let assetProviders = CredentialStore.assetProviders
