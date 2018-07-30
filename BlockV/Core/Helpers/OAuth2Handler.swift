@@ -241,6 +241,8 @@ final class OAuth2Handler: RequestAdapter, RequestRetrier {
 
     /// Retrieves and refreshes the SDKs access token.
     ///
+    /// Ensures a fresh access token is returned.
+    ///
     /// - Parameter completion: The closure to call once an access token has been obtained
     /// form the BLOCKv platform.
     func forceAccessTokenRefresh(completion: @escaping TokenCompletion) {
@@ -260,7 +262,8 @@ final class OAuth2Handler: RequestAdapter, RequestRetrier {
 
     }
 
-    /// Retrieves the access token and only refreshes it fail
+    /// Retrieves the current access token or fetches a fresh token if the current one does not meet the valid interval
+    /// requirement.
     ///
     /// - Parameters:
     ///   - validInterval: The minumum remaining interval for which the token must be valid for (measured in seconds).
