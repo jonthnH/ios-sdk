@@ -260,37 +260,44 @@ class InventoryCollectionViewController: UICollectionViewController {
             }
             
             // encode the url
-            guard let encodedURL = try? BLOCKv.encodeURL(activatedImageURL) else {
-                continue
-            }
+//            guard let encodedURL = try? BLOCKv.encodeURL(activatedImageURL) else {
+//                continue
+//            }
             
-            // create network operation
-            let operation = NetworkDataOperation(urlString: encodedURL.absoluteString) { [weak self] (data, error) in
+            // encode the url (new method)
+            BLOCKv.encodeURLWithAccessToken(activatedImageURL) { (encodedURL) in
                 
-                // unwrap data, handle error
-                guard let data = data, error == nil else {
-                    print("\n>>> Error > Viewer: \(error!.localizedDescription)")
-                    return
+                print(encodedURL)
+                
+                // create network operation
+                let operation = NetworkDataOperation(urlString: encodedURL.absoluteString) { [weak self] (data, error) in
+                    
+                    // unwrap data, handle error
+                    guard let data = data, error == nil else {
+                        print("\n>>> Error > Viewer: \(error!.localizedDescription)")
+                        return
+                    }
+                    
+                    // handle success
+                    
+                    // store the image data
+                    self?.activatedImages[vatom.id] = data
+                    
+                    // handle success
+                    print("Viewer > Downloaded 'ActivatedImage' for vAtom: \(vatom.id) Data: \(data)")
+                    
+                    // find the vatoms index
+                    if let index = self?.filteredVatoms.index(where: { $0.id == vatom.id }) {
+                        // ask collection view to reload that cell
+                        self?.collectionView?.reloadItems(at: [IndexPath(row: index, section: 0)])
+                    }
+                    
                 }
                 
-                // handle success
-                
-                // store the image data
-                self?.activatedImages[vatom.id] = data
-                
-                // handle success
-                print("Viewer > Downloaded 'ActivatedImage' for vAtom: \(vatom.id) Data: \(data)")
-                
-                // find the vatoms index
-                if let index = self?.filteredVatoms.index(where: { $0.id == vatom.id }) {
-                    // ask collection view to reload that cell
-                    self?.collectionView?.reloadItems(at: [IndexPath(row: index, section: 0)])
-                }
+                // add the operation to the download queue
+                self.downloadQueue.addOperation(operation)
                 
             }
-            
-            // add the operation to the download queue
-            downloadQueue.addOperation(operation)
         }
         
     }
