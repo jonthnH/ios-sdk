@@ -274,14 +274,13 @@ public final class BLOCKv {
     ///
     /// If the SDK does not have any asset provider credentials the method will throw.
     public static func encodeURL(_ url: URL) throws -> URL {
-
         let assetProviders = CredentialStore.assetProviders
         if assetProviders.isEmpty { throw URLEncodingError.missingAssetProviders }
         let provider = assetProviders.first(where: { $0.isProviderForURL(url) })
         return provider?.encodedURL(url) ?? url
     }
 
-    /// Encodes the URL with the user's access token, fallsback on any available asset providers.
+    /// Encodes the URL with the necessary credentials.
     ///
     /// - note: Not all URLs require asset provider encoding.
     ///
@@ -289,21 +288,27 @@ public final class BLOCKv {
     ///   - url: URL to be encoded.
     ///   - completion: Completion handler to call once the url has been encoded.
     public static func encodeURLWithAccessToken(_ url: URL, completion: @escaping (URL) -> Void) {
+        
+        /*
+         Encode the url with the known resource cdn (using jwt), or encode using one of the returned
+         asset providers (using the policy, signiture, key-pair method).
+         */
 
         // check static resource cdn
-        if let host = url.host, host == self.environment!.resourceURLString {
+        if let host = url.host, host == self.environment!.resourceURL.host {
 
-            // FIXME: Will go out to network EVERYTIME
-
-            // Fetch a fresh access token
-            BLOCKv.client.getAccessToken { (_, accessToken) in
+            // fetch a fresh (or minimum valid) access token
+            BLOCKv.client.getAccessToken(validInterval: 120) { (_, accessToken) in
 
                 if let token = accessToken {
-                    let queryItem = URLQueryItem(name: "jet", value: token)
+
+                    let queryItem = URLQueryItem(name: "jwt", value: token)
                     var components = URLComponents(url: url, resolvingAgainstBaseURL: true)
                     components?.queryItems = [queryItem]
                     completion(components?.url ?? url)
                 }
+
+                // FIXME: What if asset provider encoding fails?
 
             }
 
