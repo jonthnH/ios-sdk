@@ -265,9 +265,14 @@ class InventoryCollectionViewController: UICollectionViewController {
 //            }
             
             // encode the url (new method)
-            BLOCKv.encodeURLWithAccessToken(activatedImageURL) { (encodedURL) in
+            BLOCKv.encodeURLWithCredentials(activatedImageURL) { (encodedURL, error) in
                 
-                print(encodedURL)
+                guard let encodedURL = encodedURL, error == nil else {
+                    print("\n>>> Error > Viewer: \(error!.localizedDescription)")
+                    return
+                }
+                
+                //print("\nViewer > Encoded URL: \(encodedURL)")
                 
                 // create network operation
                 let operation = NetworkDataOperation(urlString: encodedURL.absoluteString) { [weak self] (data, error) in
