@@ -29,6 +29,11 @@ final class OAuth2Handler: RequestAdapter, RequestRetrier {
     }()
 
     // MARK: - Properties
+    
+    /*
+     An instance of OAuth2Handler is desingend to be shared between session managers, threading is important.
+     Properties: accessToken, refreshToken, isRefreshing, requestsToRetry, manualTokenCallbacks must be thread safe.
+     */
 
     fileprivate let lock = NSLock()
     fileprivate let appID: String
@@ -37,6 +42,7 @@ final class OAuth2Handler: RequestAdapter, RequestRetrier {
     fileprivate var accessToken: String
     fileprivate var refreshToken: String
 
+    /// Serial dispatch queue for synchronizing work.
     fileprivate let internalQueue = DispatchQueue(label: "com.blockv.io.internal.sync")
 
     private var isRefreshing = false
@@ -262,17 +268,34 @@ final class OAuth2Handler: RequestAdapter, RequestRetrier {
 
     }
 
-    /// Retrieves the current access token or fetches a fresh token if the current one does not meet the valid interval
-    /// requirement.
+    /// Retrieves the current access token (or fetches a fresh token if the current one does not meet the remaining
+    /// interval requirement).
+    ///
+    /// - important: Consider the maximum lifetime of the access token when specifying the `remainingInterval`. The
+    ///              lifetime of the access token may differ per environment.
     ///
     /// - Parameters:
-    ///   - validInterval: The minumum remaining interval for which the token must be valid for (measured in seconds).
+    ///   - remainingInterval: The minumum remaining interval for which the token must be valid for (measured in
+    ///     seconds).
     ///   - completion: The closure to call once a valid access token has been obtained.
-    func fetchAccessToken(validInterval: TimeInterval, completion: @escaping TokenCompletion) {
+    func fetchAccessToken(remainingInterval: TimeInterval, completion: @escaping TokenCompletion) {
 
-        //FIXME: Check if currenlty refreshing
-        //TODO: Is threading important when reading `accessToken`?
+        /*
+         Optimizations:
+         
+         1. Check if currenlty refreshing. This is not cirtical as the token is unlikely to be invalid.
+         2. Is threading important when reading `accessToken`?
+         
+         This method needs to be fast as the downstream resource encoding method will call into this method everytime
+         a resource is encoded. One solution is to dispatch work to a non-main thread may affect performace due to the
+         context switch.
+         
+         Problems:
+         - potential overlapping access to `isRefreshing` and `accessToken`.
+         
+        */
 
+        // unwrap access token's exipiry date
         guard
             let accessJWT = try? decode(jwt: accessToken),
             let expiresAt = accessJWT.expiresAt else {
@@ -280,7 +303,7 @@ final class OAuth2Handler: RequestAdapter, RequestRetrier {
                 return
         }
 
-        let minimimValidDate = expiresAt.addingTimeInterval(-validInterval)
+        let minimimValidDate = expiresAt.addingTimeInterval(-remainingInterval)
         if Date() < minimimValidDate {
             completion(true, accessToken)
         } else {
