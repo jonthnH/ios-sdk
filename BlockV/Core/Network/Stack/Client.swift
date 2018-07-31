@@ -98,16 +98,17 @@ final class Client: ClientProtocol {
         self.sessionManager.retrier = oauthHandler
 
     }
-    
-    /// Retrieves the access token and only refreshes it fail
+
+    /// Retrieves an access token (valid for at least the specified remaining interval).
     ///
     /// - Parameters:
     ///   - validInterval: The minumum remaining interval for which the token must be valid for (measured in seconds).
+    ///                    Default is 60 seconds.
     ///   - completion: The closure to call once a valid access token has been obtained.
-    func getAccessToken(validInterval: TimeInterval = 60,
+    func getAccessToken(remainingInterval: TimeInterval = 60,
                         completion: @escaping (_ success: Bool, _ accessToken: String?) -> Void) {
-     
-        self.oauthHandler.fetchAccessToken(validInterval: validInterval, completion: completion)
+
+        self.oauthHandler.fetchAccessToken(remainingInterval: remainingInterval, completion: completion)
     }
 
     // MARK: - Requests
