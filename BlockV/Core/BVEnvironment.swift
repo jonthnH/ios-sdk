@@ -35,7 +35,7 @@ public enum BVEnvironment: String {
     }
 
     /// BLOCKv resource CDN server base url.
-    var resourceURL: URL {
+    var resourceCDNServerURL: URL {
         switch self {
         case .production:  return URL(string: "")! // unknown at this point
         case .development: return URL(string: "https://cdndevsec.blockv.net")!
