@@ -264,8 +264,11 @@ public final class BLOCKv {
 
     // MARK: - Resources
 
-    enum URLEncodingError: Error {
+    public enum URLEncodingError: Error, Equatable {
+        /// No asset providers were found (only relevant to for asset provider encoding).
         case missingAssetProviders
+        /// Unable to retrieve a valid access token (likely due to networking issues, or an invalid refresh token).
+        case accessTokenUnavailable
     }
 
     /// Encodes the URL with the available asset providers.
@@ -287,40 +290,42 @@ public final class BLOCKv {
     /// - Parameters:
     ///   - url: URL to be encoded.
     ///   - completion: Completion handler to call once the url has been encoded.
-    public static func encodeURLWithAccessToken(_ url: URL, completion: @escaping (URL) -> Void) {
+    public static func encodeURLWithCredentials(_ url: URL, completion: @escaping (URL?, URLEncodingError?) -> Void) {
 
         /*
-         Encode the url with the known resource cdn (using jwt), or encode using one of the returned
-         asset providers (using the policy, signiture, key-pair method).
+         1. Attempt to encode the url with the secure resource cdn (jwt),
+         2. Attempt to encode using an asset provider (policy, signiture, key-pair method).
+         - Complete with original url if encoding was not required.
+         - Complete with error if encoding
          */
 
-        // check static resource cdn
-        if let host = url.host, host == self.environment!.resourceURL.host {
+        // 1. check if hosted on secure cdn
+        if let host = url.host, host == self.environment!.resourceCDNServerURL.host {
 
-            // fetch a fresh (or minimum valid) access token
-            BLOCKv.client.getAccessToken(validInterval: 120) { (_, accessToken) in
+            // fetch an access token
+            BLOCKv.client.getAccessToken(remainingInterval: 120) { (success, accessToken) in
 
-                if let token = accessToken {
-
-                    let queryItem = URLQueryItem(name: "jwt", value: token)
-                    var components = URLComponents(url: url, resolvingAgainstBaseURL: true)
-                    components?.queryItems = [queryItem]
-                    completion(components?.url ?? url)
+                // ensure no error
+                guard success, let token = accessToken else {
+                    completion(nil, URLEncodingError.accessTokenUnavailable)
+                    return
                 }
-
-                // FIXME: What if asset provider encoding fails?
+                
+                // encode url
+                let encodedURL = url.appendingQueryParameters(["jwt" : token])
+                completion(encodedURL, nil)
 
             }
 
         } else {
-            // fallback on asset provider credentials
+            // 2. fallback on asset provider credentials
             let assetProviders = CredentialStore.assetProviders
             if assetProviders.isEmpty {
                 printBV(error: "Missing asset provider credentials.")
             }
             let provider = assetProviders.first(where: { $0.isProviderForURL(url) })
             let url = provider?.encodedURL(url) ?? url
-            completion(url)
+            completion(url, nil)
         }
 
     }
