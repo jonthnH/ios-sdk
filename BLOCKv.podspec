@@ -14,8 +14,9 @@ Pod::Spec.new do |s|
     s.social_media_url      = 'https://twitter.com/blockv_io'
     s.ios.deployment_target = '10.0'
     s.swift_version         = '4.1'
-    s.default_subspecs      = 'Core'
+    s.default_subspecs      = 'FaceView'
     
+    # Hardcore developers should import this module.
     s.subspec 'Core' do |s|
         s.source_files = 'BlockV/Core/**/*.{swift}'
         s.dependency 'Alamofire',  '~> 4.7'  # Networking
@@ -26,6 +27,7 @@ Pod::Spec.new do |s|
         #s.exclude_files = '**/Info*.plist'
     end
     
+    # Face view depelopers should import this module.
     s.subspec 'Face' do |s|
         s.ios.source_files = 'BlockV/Face/**/*.{swift}'
         s.dependency 'BLOCKv/Core'
@@ -35,6 +37,11 @@ Pod::Spec.new do |s|
             'FaceModule' => ['BlockV/Face/Face Views/**/*.{xib}']
         }
         #s.exclude_files = "**/Info*.plist"
+    end
+    
+    # Viewer developers should import this module (default).
+    s.subspec 'FaceView' do |s|
+        s.dependency = 'Face'
     end
     
 end
