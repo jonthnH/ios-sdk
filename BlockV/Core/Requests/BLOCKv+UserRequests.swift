@@ -361,7 +361,7 @@ extension BLOCKv {
     /// provision for receiving all, some, or none of their public attributes.
     ///
     /// - Parameters:
-    ///   - userId: Unique identifier of the user.
+    ///   - userID: Unique identifier of the user.
     ///   - completion: The completion handler to call when the request is completed.
     ///                 This handler is executed on the main queue.
     public static func getPublicUser(withID userId: String,
@@ -387,29 +387,29 @@ extension BLOCKv {
         }
 
     }
-    
+
     /// DO NOT EXPOSE. ONLY USE FOR TESTING.
     ///
     /// DELETES THE CURRENT USER.
     internal static func deleteCurrentUser(completion: @escaping (Error?) -> Void) {
-        
+
         let endpoint = API.CurrentUser.deleteCurrentUser()
-        
+
         self.client.request(endpoint) { (baseModel, error) in
-            
+
             guard baseModel?.payload != nil, error == nil else {
                 DispatchQueue.main.async {
                     completion(error)
                 }
                 return
             }
-            
+
             DispatchQueue.main.async {
                 completion(nil)
             }
-            
+
         }
-        
+
     }
 
 }

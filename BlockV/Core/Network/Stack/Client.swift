@@ -140,7 +140,7 @@ final class Client: ClientProtocol {
                     completion(nil, err)
                 } else {
                     // create a wrapped networking errir
-                    let error = BVError.networkingError(error: err)
+                    let error = BVError.networking(error: err)
                     completion(nil, error)
                 }
             }
@@ -154,7 +154,7 @@ final class Client: ClientProtocol {
     ///   - endpoint: Endpoint for the request
     ///   - completion: The completion handler to call when the request is completed.
     func request<Response>(_ endpoint: Endpoint<Response>,
-                                  completion: @escaping (Response?, BVError?) -> Void ) where Response: Decodable {
+                           completion: @escaping (Response?, BVError?) -> Void ) where Response: Decodable {
 
         // create request (starts immediately)
         let request = self.sessionManager.request(
@@ -217,7 +217,7 @@ final class Client: ClientProtocol {
                 if let err = err as? BVError {
                     completion(nil, err)
                 } else {
-                    let error = BVError.networkingError(error: err)
+                    let error = BVError.networking(error: err)
                     completion(nil, error)
                 }
 
@@ -237,8 +237,8 @@ final class Client: ClientProtocol {
     ///   - progressCompletion: Percent completed
     ///   - completion: The completion handler to call when the request is completed.
     func upload<Response>(_ endpoint: UploadEndpoint<Response>,
-                                 progressCompletion: @escaping (_ percent: Float) -> Void,
-                                 completion: @escaping (Response?, BVError?) -> Void ) where Response: Decodable {
+                          progressCompletion: @escaping (_ percent: Float) -> Void,
+                          completion: @escaping (Response?, BVError?) -> Void ) where Response: Decodable {
 
         let serverURL = self.baseURL.appendingPathComponent(endpoint.path)
 
@@ -278,7 +278,7 @@ final class Client: ClientProtocol {
                             completion(nil, err)
                         } else {
                             // create a wrapped networking errir
-                            let error = BVError.networkingError(error: err)
+                            let error = BVError.networking(error: err)
                             completion(nil, error)
                         }
                     }
@@ -288,7 +288,7 @@ final class Client: ClientProtocol {
             case .failure(let encodingError):
                 //print(encodingError)
 
-                let error = BVError.networkingError(error: encodingError)
+                let error = BVError.networking(error: encodingError)
                 completion(nil, error)
             }
         }
