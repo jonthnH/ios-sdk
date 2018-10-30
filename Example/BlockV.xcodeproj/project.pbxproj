@@ -20,9 +20,12 @@
 		AD46B8132182D744005C2567 /* KeyPath_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD46B8122182D744005C2567 /* KeyPath_Tests.swift */; };
 		AD61462E213DC88700204E5B /* FaceSelectionProcedure_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD61462A213DC83D00204E5B /* FaceSelectionProcedure_Tests.swift */; };
 		AD61462F213DC88B00204E5B /* MockModelFaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD61462C213DC87100204E5B /* MockModelFaces.swift */; };
+		AD6AE08621883600005105E2 /* FocussedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6AE08521883600005105E2 /* FocussedViewController.swift */; };
 		AD920A5B215FB47200CEFC1D /* UserInfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD920A58215FB47100CEFC1D /* UserInfoTableViewController.swift */; };
 		AD920A5C215FB47200CEFC1D /* PasswordTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD920A59215FB47200CEFC1D /* PasswordTableViewController.swift */; };
 		AD920A5D215FB47200CEFC1D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD920A5A215FB47200CEFC1D /* ProfileViewController.swift */; };
+		ADDDF3D02187905D009CE13D /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADDDF3CF2187905D009CE13D /* File.swift */; };
+		ADDDF3D221879D8A009CE13D /* PopAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADDDF3D121879D8A009CE13D /* PopAnimator.swift */; };
 		CDC268C7232CDB5AF1386116 /* Pods_BlockV_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DE93FD598C0B61200B996A4 /* Pods_BlockV_Example.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		D519A84B205E83AB006B0D19 /* VatomDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D519A84A205E83AB006B0D19 /* VatomDetailTableViewController.swift */; };
 		D530759C21119E2A00DE7FD0 /* MockModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5307588211199C200DE7FD0 /* MockModels.swift */; };
@@ -88,9 +91,12 @@
 		AD46B8122182D744005C2567 /* KeyPath_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPath_Tests.swift; sourceTree = "<group>"; };
 		AD61462A213DC83D00204E5B /* FaceSelectionProcedure_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceSelectionProcedure_Tests.swift; sourceTree = "<group>"; };
 		AD61462C213DC87100204E5B /* MockModelFaces.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockModelFaces.swift; sourceTree = "<group>"; };
+		AD6AE08521883600005105E2 /* FocussedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocussedViewController.swift; sourceTree = "<group>"; };
 		AD920A58215FB47100CEFC1D /* UserInfoTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoTableViewController.swift; sourceTree = "<group>"; };
 		AD920A59215FB47200CEFC1D /* PasswordTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordTableViewController.swift; sourceTree = "<group>"; };
 		AD920A5A215FB47200CEFC1D /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		ADDDF3CF2187905D009CE13D /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		ADDDF3D121879D8A009CE13D /* PopAnimator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopAnimator.swift; sourceTree = "<group>"; };
 		B5A79A9FDD3524D3628C080E /* Pods-BlockV_Example.dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlockV_Example.dev.xcconfig"; path = "Pods/Target Support Files/Pods-BlockV_Example/Pods-BlockV_Example.dev.xcconfig"; sourceTree = "<group>"; };
 		BC27A08D03F2D2401C48F394 /* Pods-BlockV_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlockV_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-BlockV_Example/Pods-BlockV_Example.release.xcconfig"; sourceTree = "<group>"; };
 		C55D0BD7FD8ECD417C235202 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -256,12 +262,23 @@
 			path = "User Profile";
 			sourceTree = "<group>";
 		};
+		ADDDF3CE21879032009CE13D /* Transition */ = {
+			isa = PBXGroup;
+			children = (
+				ADDDF3CF2187905D009CE13D /* File.swift */,
+				ADDDF3D121879D8A009CE13D /* PopAnimator.swift */,
+			);
+			path = Transition;
+			sourceTree = "<group>";
+		};
 		D519A849205E8360006B0D19 /* Inventory */ = {
 			isa = PBXGroup;
 			children = (
-				AD3DB52F2157FD7200E00B67 /* TappedVatomViewController.swift */,
+				ADDDF3CE21879032009CE13D /* Transition */,
 				D55B21FA2056E04B00B6D5C2 /* InventoryCollectionViewController.swift */,
+				AD3DB52F2157FD7200E00B67 /* TappedVatomViewController.swift */,
 				D519A84A205E83AB006B0D19 /* VatomDetailTableViewController.swift */,
+				AD6AE08521883600005105E2 /* FocussedViewController.swift */,
 			);
 			path = Inventory;
 			sourceTree = "<group>";
@@ -553,8 +570,10 @@
 				D5475764205D124100E6FE90 /* UIView+Ext.swift in Sources */,
 				AD920A5C215FB47200CEFC1D /* PasswordTableViewController.swift in Sources */,
 				D547576B205E67AD00E6FE90 /* VatomCell.swift in Sources */,
+				AD6AE08621883600005105E2 /* FocussedViewController.swift in Sources */,
 				D519A84B205E83AB006B0D19 /* VatomDetailTableViewController.swift in Sources */,
 				AD3DB5302157FD7200E00B67 /* TappedVatomViewController.swift in Sources */,
+				ADDDF3D02187905D009CE13D /* File.swift in Sources */,
 				AD920A5D215FB47200CEFC1D /* ProfileViewController.swift in Sources */,
 				D55B21FB2056E04B00B6D5C2 /* InventoryCollectionViewController.swift in Sources */,
 				D55B21F52056745700B6D5C2 /* UIViewController+Ext.swift in Sources */,
@@ -570,6 +589,7 @@
 				D55B21EA2052E38000B6D5C2 /* RoundedImageView.swift in Sources */,
 				D5728D5E206155600041F4F7 /* ActionListTableViewController.swift in Sources */,
 				AD36A59F215D1CE4009EFD55 /* CustomLoaderView.swift in Sources */,
+				ADDDF3D221879D8A009CE13D /* PopAnimator.swift in Sources */,
 				D5728D5C206131980041F4F7 /* TransferActionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

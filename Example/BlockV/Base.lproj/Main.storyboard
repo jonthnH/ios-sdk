@@ -852,7 +852,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sag-PG-SkQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6605.6000000000004" y="-450.67466266866569"/>
+            <point key="canvasLocation" x="7422" y="-447"/>
         </scene>
         <!--vAtom-->
         <scene sceneID="d13-os-Xy4">
@@ -1440,7 +1440,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vze-Xp-Tw9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7436" y="-450"/>
+            <point key="canvasLocation" x="8252" y="-446"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="lXe-Qd-Gup">
@@ -1460,6 +1460,39 @@
             </objects>
             <point key="canvasLocation" x="5790" y="377"/>
         </scene>
+        <!--Focussed View Controller-->
+        <scene sceneID="38D-Q0-FPJ">
+            <objects>
+                <viewController storyboardIdentifier="sid.focused.vc" id="Ng7-Kr-52n" customClass="FocussedViewController" customModule="BlockV_Example" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="MEI-wv-z5A"/>
+                        <viewControllerLayoutGuide type="bottom" id="Olv-xJ-Y3v"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="p6X-WQ-JL1">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yIi-JQ-RtF" customClass="LiveVatomView" customModule="BlockV_Example" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="44" width="375" height="734"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.92146831750869751" green="0.92162638902664185" blue="0.92145842313766479" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="yIi-JQ-RtF" firstAttribute="leading" secondItem="p6X-WQ-JL1" secondAttribute="leading" id="6XF-bU-3SS"/>
+                            <constraint firstItem="yIi-JQ-RtF" firstAttribute="top" secondItem="MEI-wv-z5A" secondAttribute="bottom" id="CUV-Wh-KZF"/>
+                            <constraint firstAttribute="trailing" secondItem="yIi-JQ-RtF" secondAttribute="trailing" id="dgs-9B-V0y"/>
+                            <constraint firstItem="Olv-xJ-Y3v" firstAttribute="top" secondItem="yIi-JQ-RtF" secondAttribute="bottom" id="gzv-1b-Hed"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="vatomView" destination="yIi-JQ-RtF" id="m6h-lH-fpI"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bsK-ag-Mxe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4644" y="-446.30541871921184"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="hfE-ok-7nD">
             <objects>
@@ -1476,7 +1509,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bnr-3Y-CeE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5790" y="-450"/>
+            <point key="canvasLocation" x="6606" y="-446"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

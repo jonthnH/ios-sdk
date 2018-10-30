@@ -32,6 +32,8 @@ class InventoryCollectionViewController: UICollectionViewController {
     
     // MARK: - Properties
     
+    let transition = PopAnimator()
+    
     fileprivate lazy var refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
         control.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
@@ -267,7 +269,16 @@ extension InventoryCollectionViewController {
         // check if the cell has a vatom
         if let vatom = currentCell.vatomView.vatom {
             self.vatomToPass = vatom
-            performSegue(withIdentifier: "seg.vatom.faceviews", sender: self)
+            
+            //
+//            performSegue(withIdentifier: "seg.vatom.faceviews", sender: self)
+            
+            // TEST
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let focusedVC = storyboard.instantiateViewController(withIdentifier: "sid.focused.vc") as! FocussedViewController
+            focusedVC.vatom = vatom
+            focusedVC.transitioningDelegate = self
+            present(focusedVC, animated: true, completion: nil)
         }
         
     }
@@ -282,6 +293,19 @@ extension InventoryCollectionViewController: UICollectionViewDelegateFlowLayout 
         let padding: CGFloat =  36 // based on section insets (see storybard)
         let collectionViewSize = collectionView.frame.size.width - padding
         return CGSize(width: collectionViewSize/2, height: collectionViewSize/2)
+    }
+    
+}
+
+extension InventoryCollectionViewController: UIViewControllerTransitioningDelegate {
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        // this instance will drive the animated view controller transitions
+        return transition
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return nil
     }
     
 }
