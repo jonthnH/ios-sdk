@@ -278,6 +278,12 @@ extension InventoryCollectionViewController {
             let focusedVC = storyboard.instantiateViewController(withIdentifier: "sid.focused.vc") as! FocussedViewController
             focusedVC.vatom = vatom
             focusedVC.transitioningDelegate = self
+            
+            let attributes = collectionView.layoutAttributesForItem(at: indexPath)
+            let attributesFrame = attributes!.frame
+            let frameToOpen = collectionView.convert(attributesFrame, to: collectionView.superview)
+            
+            self.transition.originFrame = frameToOpen
             present(focusedVC, animated: true, completion: nil)
         }
         
