@@ -28,6 +28,7 @@
 
 import UIKit
 import BLOCKv
+import VatomFace3D
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -43,6 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let MyAppID = "bb671748-9661-47de-9dc0-f56d00837da8"
                 
         BLOCKv.configure(appID: MyAppID)
+        FaceViewRoster.shared.register(Face3D.self)
         
         //: ## Control Flow
 
