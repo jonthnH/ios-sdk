@@ -28,7 +28,7 @@ import BLOCKv
 ///
 /// This example only shows the Activated Image of each vAtom. In future releases
 /// vAtom Face Code will be added to this example.
-class InventoryCollectionViewController: UICollectionViewController {
+class InventoryCollectionViewController: UICollectionViewController {    
     
     // MARK: - Properties
     
@@ -140,7 +140,7 @@ class InventoryCollectionViewController: UICollectionViewController {
         // MARK: - Activity
         
         // subcribe to an activity event
-        BLOCKv.socket.onActivityUpdate.subscribe(with: self) { [weak self] activityEvent in
+        BLOCKv.socket.onActivityUpdate.subscribe(with: self) { activityEvent in
             
             print("\nViewer > Activity Event: \n\(activityEvent)")
             
@@ -257,7 +257,7 @@ extension InventoryCollectionViewController {
         
         // replace cell's vatom
         let vatom = filteredVatoms[indexPath.row]
-        cell.vatomView.update(usingVatom: vatom)
+        cell.vatomView.update(usingVatom: vatom, procedure: CustomProcedure.noHeavyIcons)
         
         return cell
     }
