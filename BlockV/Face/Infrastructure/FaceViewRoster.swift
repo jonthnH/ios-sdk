@@ -35,10 +35,6 @@ public typealias Roster = [DisplayURL: FaceView.Type]
 /// On initialization, a set of *embedded* face views (supported by BLOCKv) are registered on your behalf. The
 /// registration of a custom face view where the `displayURL` matches an already registered face view will result in a
 /// face view overwrite.
-///
-/// Embedded:
-///
-/// - Image Face: `native://image`
 public class FaceViewRoster {
 
     // MARK: - Properties
@@ -51,7 +47,7 @@ public class FaceViewRoster {
         roster.register(ImagePolicyFaceView.self)
         roster.register(ImageProgressFaceView.self)
         roster.register(ImageLayeredFaceView.self)
-
+        roster.register(WebFaceView.self)
         return roster
     }()
 

@@ -24,6 +24,7 @@
 		AD920A5B215FB47200CEFC1D /* UserInfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD920A58215FB47100CEFC1D /* UserInfoTableViewController.swift */; };
 		AD920A5C215FB47200CEFC1D /* PasswordTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD920A59215FB47200CEFC1D /* PasswordTableViewController.swift */; };
 		AD920A5D215FB47200CEFC1D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD920A5A215FB47200CEFC1D /* ProfileViewController.swift */; };
+		ADB6D92321918E6F00E31A97 /* JSONSerialization+JS_Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADB6D92221918E6F00E31A97 /* JSONSerialization+JS_Tests.swift */; };
 		CDC268C7232CDB5AF1386116 /* Pods_BlockV_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DE93FD598C0B61200B996A4 /* Pods_BlockV_Example.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		D519A84B205E83AB006B0D19 /* VatomDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D519A84A205E83AB006B0D19 /* VatomDetailTableViewController.swift */; };
 		D530759C21119E2A00DE7FD0 /* MockModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5307588211199C200DE7FD0 /* MockModels.swift */; };
@@ -93,6 +94,7 @@
 		AD920A58215FB47100CEFC1D /* UserInfoTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoTableViewController.swift; sourceTree = "<group>"; };
 		AD920A59215FB47200CEFC1D /* PasswordTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasswordTableViewController.swift; sourceTree = "<group>"; };
 		AD920A5A215FB47200CEFC1D /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		ADB6D92221918E6F00E31A97 /* JSONSerialization+JS_Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONSerialization+JS_Tests.swift"; sourceTree = "<group>"; };
 		B5A79A9FDD3524D3628C080E /* Pods-BlockV_Example.dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlockV_Example.dev.xcconfig"; path = "Pods/Target Support Files/Pods-BlockV_Example/Pods-BlockV_Example.dev.xcconfig"; sourceTree = "<group>"; };
 		BC27A08D03F2D2401C48F394 /* Pods-BlockV_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlockV_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-BlockV_Example/Pods-BlockV_Example.release.xcconfig"; sourceTree = "<group>"; };
 		C55D0BD7FD8ECD417C235202 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
@@ -258,6 +260,15 @@
 			path = "User Profile";
 			sourceTree = "<group>";
 		};
+		ADB6D92121918E3100E31A97 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				AD46B8122182D744005C2567 /* KeyPath_Tests.swift */,
+				ADB6D92221918E6F00E31A97 /* JSONSerialization+JS_Tests.swift */,
+			);
+			path = Foundation;
+			sourceTree = "<group>";
+		};
 		D519A849205E8360006B0D19 /* Inventory */ = {
 			isa = PBXGroup;
 			children = (
@@ -274,8 +285,8 @@
 				D530759521119E0E00DE7FD0 /* Info.plist */,
 				AD614629213DC79D00204E5B /* Face Selection Procedure */,
 				D53075A02111DBD600DE7FD0 /* Models */,
+				ADB6D92121918E3100E31A97 /* Foundation */,
 				D530759D2111CADC00DE7FD0 /* Utilities */,
-				AD46B8122182D744005C2567 /* KeyPath_Tests.swift */,
 			);
 			path = "BLOCKv Unit Tests";
 			sourceTree = "<group>";
@@ -589,6 +600,7 @@
 				D530759F2111CC5200DE7FD0 /* Test+Utils.swift in Sources */,
 				AD61462F213DC88B00204E5B /* MockModelFaces.swift in Sources */,
 				AD61462E213DC88700204E5B /* FaceSelectionProcedure_Tests.swift in Sources */,
+				ADB6D92321918E6F00E31A97 /* JSONSerialization+JS_Tests.swift in Sources */,
 				D53075A42112E9E000DE7FD0 /* FaceModel_Tests.swift in Sources */,
 				AD0BCC922178828A001836DE /* VatomModelUpdate_Tests.swift in Sources */,
 				AD0BCC8E217769D7001836DE /* GenericJsonMerge_Tests.swift in Sources */,

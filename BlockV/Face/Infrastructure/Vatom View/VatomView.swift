@@ -33,6 +33,48 @@ protocol VatomViewLifecycleDelegate: class {
     func faceViewDidCompleteLoad(error: Error?)
 }
 
+/// The protocol types must conform to respond to face messages.
+public protocol FaceMessageDelegate: class {
+
+    /// Completion handler for face messages.
+    typealias Completion = ([String: Any]) -> Void
+
+    /// Called when the vatom view receives a message from the face.
+    ///
+    /// - Parameters:
+    ///   - vatomView: The `VatomView` instance which the face message was received from.
+    ///   - messageID: The unique identifier of the message.
+    ///   - withObject: Companion object which addtional information relevant to the request.
+    ///   - completion: The completion handler to call once the request has been processed.
+    func vatomView(_ vatomView: VatomView,
+                   didRecevieFaceMessage messageID: String,
+                   withObject: [String: Any],
+                   completion: Completion?)
+
+    /// Returns a dictionary that indicates which face messages the view supports.
+    ///
+    /// As a viewer, you should respond with `true` for each message you support. This will allow face interact with
+    /// your viewer. Similiarly, you should return `false` if you do not support the message.
+    ///
+    /// - Parameter messageIdentifiers: Array of unique identifiers of the face messages.
+    /// - Returns: Dictionary mapping face messages to viewer support status. `true` if supported, `false` otherwise.
+    func determineSupport(forFaceMessages messageIdentifiers: [String]) -> [String: Bool]
+
+}
+
+extension FaceMessageDelegate {
+
+    /// This default implementation returns `false` for each message since by de
+    func determineSupport(forMessages messageIdentifiers: [String]) -> [String: Bool] {
+        var dict: [String: Bool] = [:]
+        for id in messageIdentifiers {
+            dict[id] = false
+        }
+        return dict
+    }
+
+}
+
 /*
  Design Goals:
  1. Vatom View will ask for the best face (default routine for each view context).
@@ -114,6 +156,9 @@ open class VatomView: UIView {
 
     /// Selected face view (function of the selected face model).
     public private(set) var selectedFaceView: FaceView?
+
+    /// Delegate intended to respond to face messages.
+    public weak var messageDelegate: FaceMessageDelegate?
 
     // MARK: Customization
 
@@ -399,7 +444,15 @@ open class VatomView: UIView {
             self.selectedFaceModel = selectedFaceModel
 
             // 3. find face view type
-            guard let faceViewType = roster[selectedFaceModel.properties.displayURL] else {
+            var faceViewType: FaceView.Type?
+
+            if selectedFaceModel.isWeb {
+                faceViewType = roster["https://*"]
+            } else {
+                faceViewType = roster[selectedFaceModel.properties.displayURL]
+            }
+
+            guard let viewType = faceViewType else {
                 // viewer developer MUST have registered the face view with the face registry
                 assertionFailure(
                     """
@@ -411,9 +464,10 @@ open class VatomView: UIView {
 
             //printBV(info: "Face view for face model: \(faceViewType)")
 
-            //let selectedFaceView: FaceView = ImageFaceView(vatom: vatom, faceModel: selectedFace)
-            let selectedFaceView: FaceView = faceViewType.init(vatom: vatom,
-                                                               faceModel: selectedFaceModel)
+            //let selectedFaceView: FaceView = ImageFaceView(vatom: vatom, faceModel: selectedFace, host: self)
+            let selectedFaceView: FaceView = viewType.init(vatom: vatom,
+                                                           faceModel: selectedFaceModel,
+                                                           host: self)
 
             // replace currently selected face view with newly selected
             self.replaceFaceView(with: selectedFaceView)

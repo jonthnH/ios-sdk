@@ -88,5 +88,28 @@ class GenericJsonMerge_Tests: XCTestCase {
         XCTAssertEqual(C.updated(applying: D), D)
 
     }
+    
+    func testFloat() {
+        
+//        do {
+//            let a = JSON(floatLiteral: 1.333)
+//            let b = try JSON([1.333, 2.666, 3.999])
+//            
+//            print(a)
+//            print(b)
+//            
+//            let ddd = "Hello my old friend".data(using: .utf8)!
+//            print(ddd)
+//            var we = "adsf".tr
+//            let encodedString = String.init(data: ddd, encoding: .utf8)!
+//            print(encodedString)
+//            
+//        } catch {
+//            XCTFail(error.localizedDescription)
+//        }
+        
+        
+        
+    }
 
 }

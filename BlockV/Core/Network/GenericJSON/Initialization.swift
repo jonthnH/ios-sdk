@@ -30,6 +30,8 @@ extension JSON {
     /// of those types.
     public init(_ value: Any) throws {
         switch value {
+        case let num as Double:
+            self = .number(Float(num)) //FIXME: What to do here
         case let num as Float:
             self = .number(num)
         case let num as Int:
