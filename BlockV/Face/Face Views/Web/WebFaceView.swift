@@ -154,7 +154,7 @@ extension WebFaceView: WKScriptMessageHandler {
         var script = "(window.vatomicEventReceiver || window.blockvEventReceiver).trigger('message', \(name)"
         if let object = object {
             script += ", "
-            //FIXME: Find out from Sean how he handles the case where encoding fails
+            //FIXME: How to handle encoding failure
             script += ((try? JSONSerialization.string(withJSONObject: object)) ?? "null")
         }
         script += ");"
@@ -197,7 +197,6 @@ extension WebFaceView {
             self.coreBridge = CoreBridge_2(faceView: self)
         default:
             throw BridgeError.caller("Unsupported Bridge version: \(message.version)")
-            assertionFailure("Unsupported Bridge version: (message.version)")
         }
 
         /*
@@ -209,6 +208,9 @@ extension WebFaceView {
 
         // process message
 
+        /*
+         Note
+         */
         if coreBridge!.canProcessMessage(message.name) {
 //            self.coreBridge!.processMessage(message, completion: { (object, error) in
 //                print("Object: \(String(describing: object)) | Error: \(String(describing: error))")
