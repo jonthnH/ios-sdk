@@ -85,7 +85,7 @@ class LoginViewController: UIViewController {
             }
             
             // handle success
-            self?.performSegue(withIdentifier: "seg.login.success", sender: self)
+            self?.navigationController?.popToRootViewController(animated: true)
             print("Viewer > \(model)\n")
             
         }

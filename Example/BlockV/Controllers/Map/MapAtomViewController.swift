@@ -47,6 +47,14 @@ class MapAtomViewController: UIViewController, CLLocationManagerDelegate, MKMapV
     var locationManager = CLLocationManager()
     var annotations: [MKAnnotation] = []
     
+    @IBAction func profileButtonTapped(_ sender: UIBarButtonItem) {
+        if BLOCKv.isLoggedIn {
+            self.performSegue(withIdentifier: "showProfileSegue", sender: self)
+        } else {
+            self.performSegue(withIdentifier: "showLoginSegue", sender: self)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.showsUserLocation = true

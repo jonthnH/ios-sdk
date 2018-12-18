@@ -47,38 +47,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //: ## Control Flow
 
         print("\nViewer > isLoggedIn - \(BLOCKv.isLoggedIn)")
-        
-        func showWelcome() {
-            // show 'welcome' view controller
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let nc = storyboard.instantiateInitialViewController() as! UINavigationController
-            let rootVC = storyboard.instantiateViewController(withIdentifier: "sid.welcome.vc")
-            nc.viewControllers = [rootVC]
-            self.window?.rootViewController = nc
-        }
-        
-        func showInventory() {
+                
+        func showMap() {
             // show 'inventory' view controller
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let nc = storyboard.instantiateViewController(withIdentifier: "sid.inventory.nc") as! UINavigationController
-            let rootVC = storyboard.instantiateViewController(withIdentifier: "sid.inventory.vc") as! InventoryCollectionViewController
+            let rootVC = storyboard.instantiateViewController(withIdentifier: "sid.map.vc") as! MapAtomViewController
             nc.viewControllers = [rootVC]
             self.window?.rootViewController = nc
         }
         
         // Set window's vc based on the login state
-        if BLOCKv.isLoggedIn {
-            showInventory()
-        } else {
-            showWelcome()
-        }
+        showMap()
         
         //: ## Handle logout
         
         // This closure will be called when the BLOCKv SDK requires re-authorization.
         BLOCKv.onLogout = {
             // store a closure in the `onLogout` variable.
-            showWelcome()
+            //showWelcome()
         }
         
         // Theme
