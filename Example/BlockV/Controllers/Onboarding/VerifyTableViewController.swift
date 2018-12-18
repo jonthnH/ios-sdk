@@ -66,6 +66,9 @@ class VerifyTableViewController: UITableViewController {
     /// Set off the back of the network call.
     fileprivate var allTokens: [FullTokenModel] = []
     
+    @IBAction func nextButtonTapped(_ sender: UIBarButtonItem) {
+        self.navigationController?.popToRootViewController(animated: true)
+    }
     // MARK: - Lifecycle
     
     override func viewDidLoad() {

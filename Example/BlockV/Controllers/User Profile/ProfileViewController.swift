@@ -97,13 +97,7 @@ class ProfileViewController: UITableViewController {
     @IBOutlet weak var userIdLabel: UILabel!
     @IBOutlet weak var uploadProgressView: UIProgressView!
     @IBOutlet weak var versionLabel: UILabel!
-    
-    // MARK: - Actions
-    
-    @IBAction func doneButtonTapped(_ sender: UIBarButtonItem) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
+        
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -241,17 +235,7 @@ class ProfileViewController: UITableViewController {
     fileprivate func logout() {
         
         BLOCKv.logout { [weak self] error in
-            
-            // Immediately pop the user to the onboarding view controller.
-            
-            // change root view controller
-            self?.changeToOnboardingViewController()
-            
-            // dismiss
-            self?.dismiss(animated: true, completion: nil)
-            
-            // Inspect the network response
-            
+            self?.navigationController?.popToRootViewController(animated: true)
             // handle error
             guard error == nil else {
                 print(">>> Error > Viewer: \(error!.localizedDescription)\n")
